@@ -1,0 +1,64 @@
+Código	Dia Semana
+CAD1023	Qui - Manhã 
+CAD1085	Qui - Tarde  
+CAD1086	Seg - Manhã
+CAD1088	Qui - Manhã
+CAD1089	Ter - Tarde
+CAD1091	Ter - Tarde
+CAD1092	Seg - Manhã
+CAD1093	Qua - Manhã
+CAD1097	Ter - Manhã
+CAD1102	Sex - Manhã
+CAD1103	Ter - Manhã 
+CAD1104	Qua - Tarde 
+CAD1112	Qui - Tarde
+CAD1123	Ter - Tarde 
+CAD1128	Qua - Tarde 
+CAD1133	Semana
+CAD1138	Qui - Tarde 
+CAD1156	Qui - Manhã 
+CAD1157	Seg - Manhã
+CAD1158	Qui - Manhã 
+CAD1159	Seg - Manhã
+CAD1163	Ter - Tarde
+CAD1169	Qua - Tarde
+CAD1170	Qua - Manhã 
+CTB1109	Seg/Qua-M
+ERI1040	Ter - Manhã
+LTV1192	Qui - Tarde
+MTM1076	Qua /Sex - Manhã
+MTM1077	Qui - Manhã
+Código	Dia Semana
+CAD1087	Sexta
+CAD1090	Segunda/Terça
+CAD1094	Quarta
+CAD1095	Terça
+CAD1096	Segunda
+CAD1098	Segunda
+CAD1099	Quinta
+CAD1101	Terça
+CAD1106	Segunda
+CAD1107	Segunda
+CAD1110	Quarta
+CAD1113	Quinta
+CAD1115	Segunda
+CAD1125	Quarta
+CAD1130	Terça
+CAD1132	Quinta
+CAD1134	Terça
+CTB1110		Segunda/Terça
+DCOM3106	Sexta
+ERI1040	Quarta
+JUR1118	Quarta
+JUR1119	Quinta
+JUR1120	Sexta
+LTV1192	Quarta/Quinta
+STC1112	Quinta
+CAD1105	Seg - Manhã
+CAD1116	nan
+CAD1120	Ter - Tarde
+CAD1122	nan
+CAD1109	Seg - Manhã
+CAD1108	Qui - Manhã	
+CAD1100	Qui - Manhã	
+ERI1041	Ter - Manhã	
