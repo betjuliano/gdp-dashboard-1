@@ -38,11 +38,22 @@ class StudentAnalyzer:
         except Exception as e:
             st.error(f"Erro ao carregar o arquivo: {e}")
 
-# **Verifica se o arquivo existe antes de continuar**
-if not os.path.exists(FILE_PATH):
-    st.error(f"⚠ O arquivo {FILE_PATH} não foi encontrado! Carregue um arquivo válido.")
-else:
-    st.success(f"✅ Arquivo do horário encontrado!")
+        # Verifica se o arquivo existe antes de continuar
+
+        data_dir = "data"
+
+        # Cria a pasta 'data' se ela não existir
+        if not os.path.exists(data_dir):
+            os.makedirs(data_dir)
+
+        # Caminho do arquivo
+        file_path = os.path.join(data_dir, "h20251.txt")
+
+        # Verifica se o arquivo existe antes de continuar
+        if not os.path.exists(file_path):
+            st.error(f"⚠ O arquivo {file_path} não foi encontrado! Carregue um arquivo válido.")
+        else:
+            st.success(f"✅ Arquivo {file_path} encontrado com sucesso!")
 
     def extract_student_info(self, lines):
         """Extrai informações do aluno do texto inserido."""
