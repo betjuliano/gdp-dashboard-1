@@ -234,10 +234,21 @@ class StudentAnalyzer:
         
 # Definir a função ANTES de chamá-la
 def display_table(df):
-    """Exibe a tabela de disciplinas de forma funcional e sem cores."""
+    """Exibe a tabela de disciplinas de forma funcional e ajustável."""
     if df.empty:
         st.write("Nenhuma disciplina encontrada.")
         return
+    
+    # Calcula a altura da tabela com base no número de linhas
+    row_height = 35  # Altura estimada por linha
+    header_height = 35  # Altura do cabeçalho
+    min_height = 200  # Altura mínima para tabelas pequenas
+    max_height = 600  # Altura máxima para evitar tabelas muito grandes
+
+    table_height = max(min_height, min(max_height, len(df) * row_height + header_height))
+
+    # Exibir o DataFrame com altura ajustada
+    st.dataframe(df, height=table_height, use_container_width=True)
 
     # Exibir o DataFrame sem formatação de cores
     st.dataframe(df, use_container_width=True)
@@ -336,12 +347,23 @@ if __name__ == "__main__":
         st.dataframe(other_courses)
 
     # Resumo das disciplinas
-    if not courses.empty:
-        total_cursadas = courses[courses["Status"].str.contains("Aprovado|Dispensado", case=False, na=False)].shape[0]
-        total_nao_cursadas = courses[courses["Status"].str.contains("Reprovado|Não cursada", case=False, na=False)].shape[0]
+if not courses.empty:
+    # Calcula o total de disciplinas obrigatórias aprovadas e não cursadas
+    total_cursadas = courses[courses["Status"].str.contains("Aprovado|Dispensado", case=False, na=False)].shape[0]
+    total_nao_cursadas = courses[courses["Status"].str.contains("Reprovado|Não cursada", case=False, na=False)].shape[0]
 
-        st.subheader("📊 Resumo das Disciplinas")
-        st.markdown(f"""
-        - ✅ **Total Aprovadas:** {total_cursadas}  
-        - ❌ **Total Não Cursadas:** {total_nao_cursadas}  
-        """)
+    # Calcula o total de disciplinas eletivas/DCG aprovadas
+    if not other_courses.empty:
+        total_eletivas_aprovadas = other_courses[
+            other_courses["Status"].str.contains("Aprovado|Dispensado", case=False, na=False)
+        ].shape[0]
+    else:
+        total_eletivas_aprovadas = 0
+
+    # Exibe o resumo das disciplinas
+    st.subheader("📊 Resumo das Disciplinas")
+    st.markdown(f"""
+    ✅ **Total Aprovadas (Obrigatórias):** {total_cursadas}  
+    ❌ **Total Não Cursadas (Obrigatórias):** {total_nao_cursadas}  
+    📚 **Total Eletivas/DCG:** {total_eletivas_aprovadas} de 5 disciplinas
+    """)
