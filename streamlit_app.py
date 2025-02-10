@@ -98,73 +98,6 @@ class StudentAnalyzer:
         else:
             st.success(f"✅ Arquivo {file_path} encontrado com sucesso!")
 
-    from fpdf import FPDF
-
-    def generate_pdf(student, courses, other_courses):
-        """Gera um PDF com os dados do aluno e disciplinas 'Não Cursadas' com Dia da Semana."""
-        pdf = FPDF()
-        pdf.add_page()
-        pdf.set_auto_page_break(auto=True, margin=15)
-        pdf.set_font("Arial", size=12)
-
-        # Título do PDF
-        pdf.cell(200, 10, txt="Relatório Acadêmico - UFSM", ln=True, align="C")
-        pdf.ln(10)
-
-        # Informações do aluno
-        pdf.set_font("Arial", style="B", size=14)
-        pdf.cell(200, 10, txt="📌 Informações do Aluno", ln=True)
-        pdf.set_font("Arial", size=12)
-        for key, value in student.items():
-            pdf.cell(200, 10, txt=f"{key}: {value}", ln=True)
-        pdf.ln(10)
-
-        # Filtrar disciplinas obrigatórias "Não Cursadas"
-        not_completed_courses = courses[
-            courses["Status"].str.contains("Não Cursada", case=False, na=False)
-        ]
-
-        # Disciplinas obrigatórias "Não Cursadas" com Dia da Semana
-        pdf.set_font("Arial", style="B", size=14)
-        pdf.cell(200, 10, txt="📘 Disciplinas Obrigatórias Não Cursadas", ln=True)
-        pdf.set_font("Arial", size=12)
-        if not not_completed_courses.empty:
-            for _, row in not_completed_courses.iterrows():
-                pdf.cell(
-                    200,
-                    10,
-                    txt=f"Código: {row['Código']}, Disciplina: {row['Disciplina']}, Dia da Semana: {row.get('Dia da Semana', 'N/A')}",
-                    ln=True,
-                )
-        else:
-            pdf.cell(200, 10, txt="Nenhuma disciplina obrigatória não cursada encontrada.", ln=True)
-        pdf.ln(10)
-
-        # Filtrar outras disciplinas "Não Cursadas"
-        not_completed_other_courses = other_courses[
-            other_courses["Status"].str.contains("Não Cursada", case=False, na=False)
-        ]
-
-        # Outras disciplinas "Não Cursadas" com Dia da Semana
-        pdf.set_font("Arial", style="B", size=14)
-        pdf.cell(200, 10, txt="📖 Outras Disciplinas Não Cursadas", ln=True)
-        pdf.set_font("Arial", size=12)
-        if not not_completed_other_courses.empty:
-            for _, row in not_completed_other_courses.iterrows():
-                pdf.cell(
-                    200,
-                    10,
-                    txt=f"Código: {row['Código']}, Disciplina: {row['Disciplina']}, Dia da Semana: {row.get('Dia da Semana', 'N/A')}",
-                    ln=True,
-                )
-        else:
-            pdf.cell(200, 10, txt="Nenhuma outra disciplina não cursada encontrada.", ln=True)
-
-        # Salvar o PDF
-        pdf_file = "relatorio_academico.pdf"
-        pdf.output(pdf_file)
-        st.success(f"PDF gerado com sucesso! Baixe o arquivo [aqui]({pdf_file}).")
-                
     def extract_student_info(self, lines):
         """Extrai informações do aluno do texto inserido."""
         student_info = {
@@ -247,7 +180,6 @@ class StudentAnalyzer:
 
         return courses
 
-
     def extract_other_courses(self, lines):
         """Extrai as outras disciplinas do histórico do aluno."""
         other_courses = []
@@ -316,6 +248,71 @@ def display_table(df):
 
     # Exibir o DataFrame com altura ajustada
     st.dataframe(df, height=table_height, use_container_width=True)
+
+def generate_pdf(student, courses, other_courses):
+    """Gera um PDF com os dados do aluno e disciplinas 'Não Cursadas' com Dia da Semana."""
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_auto_page_break(auto=True, margin=15)
+    pdf.set_font("Arial", size=12)
+
+    # Título do PDF
+    pdf.cell(200, 10, txt="Relatório Acadêmico - UFSM", ln=True, align="C")
+    pdf.ln(10)
+
+    # Informações do aluno
+    pdf.set_font("Arial", style="B", size=14)
+    pdf.cell(200, 10, txt="📌 Informações do Aluno", ln=True)
+    pdf.set_font("Arial", size=12)
+    for key, value in student.items():
+        pdf.cell(200, 10, txt=f"{key}: {value}", ln=True)
+    pdf.ln(10)
+
+    # Filtrar disciplinas obrigatórias "Não Cursadas"
+    not_completed_courses = courses[
+        courses["Status"].str.contains("Não Cursada", case=False, na=False)
+    ]
+
+    # Disciplinas obrigatórias "Não Cursadas" com Dia da Semana
+    pdf.set_font("Arial", style="B", size=14)
+    pdf.cell(200, 10, txt="📘 Disciplinas Obrigatórias Não Cursadas", ln=True)
+    pdf.set_font("Arial", size=12)
+    if not not_completed_courses.empty:
+        for _, row in not_completed_courses.iterrows():
+            pdf.cell(
+                200,
+                10,
+                txt=f"Código: {row['Código']}, Disciplina: {row['Disciplina']}, Dia da Semana: {row.get('Dia da Semana', 'N/A')}",
+                ln=True,
+            )
+    else:
+        pdf.cell(200, 10, txt="Nenhuma disciplina obrigatória não cursada encontrada.", ln=True)
+    pdf.ln(10)
+
+    # Filtrar outras disciplinas "Não Cursadas"
+    not_completed_other_courses = other_courses[
+        other_courses["Status"].str.contains("Não Cursada", case=False, na=False)
+    ]
+
+    # Outras disciplinas "Não Cursadas" com Dia da Semana
+    pdf.set_font("Arial", style="B", size=14)
+    pdf.cell(200, 10, txt="📖 Outras Disciplinas Não Cursadas", ln=True)
+    pdf.set_font("Arial", size=12)
+    if not not_completed_other_courses.empty:
+        for _, row in not_completed_other_courses.iterrows():
+            pdf.cell(
+                200,
+                10,
+                txt=f"Código: {row['Código']}, Disciplina: {row['Disciplina']}, Dia da Semana: {row.get('Dia da Semana', 'N/A')}",
+                ln=True,
+            )
+    else:
+        pdf.cell(200, 10, txt="Nenhuma outra disciplina não cursada encontrada.", ln=True)
+
+    # Salvar o PDF
+    pdf_file = "relatorio_academico.pdf"
+    pdf.output(pdf_file)
+    st.success(f"PDF gerado com sucesso! Baixe o arquivo [aqui]({pdf_file}).")
 
 if __name__ == "__main__":
     analyzer = StudentAnalyzer()
