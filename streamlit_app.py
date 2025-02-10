@@ -250,9 +250,6 @@ def display_table(df):
     # Exibir o DataFrame com altura ajustada
     st.dataframe(df, height=table_height, use_container_width=True)
 
-    # Exibir o DataFrame sem formatação de cores
-    st.dataframe(df, use_container_width=True)
-
 if __name__ == "__main__":
     analyzer = StudentAnalyzer()
 
