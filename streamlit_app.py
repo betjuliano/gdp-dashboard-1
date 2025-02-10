@@ -231,16 +231,23 @@ class StudentAnalyzer:
         st.session_state["student"] = self.student
         st.session_state["courses"] = self.courses
         st.session_state["other_courses"] = self.other_courses
-        
-# Definir a função ANTES de chamá-la
+
 def display_table(df):
-    """Exibe a tabela de disciplinas de forma funcional e sem cores."""
+    """Exibe a tabela de disciplinas de forma funcional e ajustável."""
     if df.empty:
         st.write("Nenhuma disciplina encontrada.")
         return
+    
+    # Calcula a altura da tabela com base no número de linhas
+    row_height = 35  # Altura estimada por linha
+    header_height = 35  # Altura do cabeçalho
+    min_height = 200  # Altura mínima para tabelas pequenas
+    max_height = 600  # Altura máxima para evitar tabelas muito grandes
 
-    # Exibir o DataFrame sem formatação de cores
-    st.dataframe(df, use_container_width=True)
+    table_height = max(min_height, min(max_height, len(df) * row_height + header_height))
+
+    # Exibir o DataFrame com altura ajustada
+    st.dataframe(df, height=table_height, use_container_width=True)
 
 if __name__ == "__main__":
     analyzer = StudentAnalyzer()
