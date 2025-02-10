@@ -334,10 +334,9 @@ if __name__ == "__main__":
         else:
             selected_courses = courses  # Se "Todas" for selecionado, mostrar todas as disciplinas obrigatórias
 
-        # Exibir as disciplinas apenas quando "Todas" for selecionado
-        st.subheader("📘 Disciplinas Obrigatórias" if filter_type == "all" else "📘 Disciplinas Obrigatórias")
+        # Exibir as disciplinas apenas uma vez
+        st.subheader("📘 Disciplinas Obrigatórias")
         display_table(selected_courses)
-
     else:
         st.warning("⚠ Nenhuma disciplina obrigatória foi carregada!")
 
