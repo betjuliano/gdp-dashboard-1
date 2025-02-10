@@ -203,9 +203,16 @@ if __name__ == "__main__":
     # Upload do arquivo de referência, se necessário
     uploaded_file = st.file_uploader("Carregue o arquivo dos horários em formato txt", type="txt")
     if uploaded_file is not None:
+        # Garante que o diretório existe antes de salvar o arquivo
+        data_dir = os.path.dirname(analyzer.file_path)
+        if not os.path.exists(data_dir):
+            os.makedirs(data_dir)
+
+        # Agora abre o arquivo para escrita
         with open(analyzer.file_path, "wb") as f:
             f.write(uploaded_file.getvalue())
-        st.success("Arquivo carregado com sucesso!")
+        
+        st.success(f"✅ Arquivo {analyzer.file_path} carregado com sucesso!")
 
     # Entrada do usuário
     raw_data = st.text_area("Cole os dados do aluno aqui...", height=150, placeholder="Insira os dados do aluno...")
