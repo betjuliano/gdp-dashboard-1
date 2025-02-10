@@ -2,6 +2,7 @@ import os
 import streamlit as st
 import pandas as pd
 import re
+import tempfile
 
 # Caminho correto do arquivo
 FILE_PATH = "/workspaces/gdp-dashboard-1/data/h20251.txt"
@@ -38,23 +39,19 @@ class StudentAnalyzer:
         except Exception as e:
             st.error(f"Erro ao carregar o arquivo: {e}")
 
-        # Verifica se o arquivo existe antes de continuar
+        # Upload do arquivo de referência, se necessário
+        uploaded_file = st.file_uploader("Carregue o arquivo dos horários em formato txt", type="txt")
 
-        data_dir = "data"
+        if uploaded_file is not None:
+            # Salvar o arquivo no diretório temporário do Streamlit
+            temp_dir = tempfile.gettempdir()
+            analyzer.file_path = os.path.join(temp_dir, "h20251.txt")
 
-        # Cria a pasta 'data' se ela não existir
-        if not os.path.exists(data_dir):
-            os.makedirs(data_dir)
+            with open(analyzer.file_path, "wb") as f:
+                f.write(uploaded_file.getvalue())
 
-        # Caminho do arquivo
-        file_path = os.path.join(data_dir, "h20251.txt")
-
-        # Verifica se o arquivo existe antes de continuar
-        if not os.path.exists(file_path):
-            st.error(f"⚠ O arquivo {file_path} não foi encontrado! Carregue um arquivo válido.")
-        else:
-            st.success(f"✅ Arquivo {file_path} encontrado com sucesso!")
-
+            st.success(f"✅ Arquivo {analyzer.file_path} carregado com sucesso!")
+            
     def extract_student_info(self, lines):
         """Extrai informações do aluno do texto inserido."""
         student_info = {
@@ -204,14 +201,7 @@ if __name__ == "__main__":
     uploaded_file = st.file_uploader("Carregue o arquivo dos horários em formato txt", type="txt")
     if uploaded_file is not None:
         # Garante que o diretório existe antes de salvar o arquivo
-        data_dir = os.path.dirname(analyzer.file_path)
-        if not os.path.exists(data_dir):
-            os.makedirs(data_dir)
 
-        # Agora abre o arquivo para escrita
-        with open(analyzer.file_path, "wb") as f:
-            f.write(uploaded_file.getvalue())
-        
         st.success(f"✅ Arquivo {analyzer.file_path} carregado com sucesso!")
 
     # Entrada do usuário
